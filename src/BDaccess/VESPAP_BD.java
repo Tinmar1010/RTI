@@ -82,52 +82,25 @@ public class VESPAP_BD {
         return result;
     }
 
-    public ArrayList<Factures> Get_Factures(int idclient, BeanAccesBD BAD) throws SQLException
+    public ArrayList<Factures> Get_Factures(int idclient) throws SQLException
     {
         ArrayList<Factures> listefactures = new ArrayList<Factures>();
 
-        /*int ret = super.getTuple("select * from factures where idlcient = "+ idclient + ";", BAD);
-        if(ret == -1)//DB error
-            return null;
-        else
-        {
-            while(BAD.getResult().next())
-            {
-                Factures fact = new Factures();
-                fact.setIdFactures(BAD.getResult().getInt(0));
-                fact.setDate(BAD.getResult().getDate(1));
-                fact.setMontant(BAD.getResult().getFloat(2));
-                fact.setPaye(BAD.getResult().getBoolean(3));
+        ResultSet ret = bdacces.executeQuery("select * from factures where idClient = "+ "\"" +idclient + "\";");
 
-                listefactures.add(fact);
-            }
-            return listefactures;
-        }*/
+        while(ret.next())
+        {
+            Factures fact = new Factures();
+            fact.setIdFactures(ret.getInt("id"));
+            fact.setIdClient(ret.getInt("idClient"));
+            fact.setDate(ret.getDate("date"));
+            fact.setMontant(ret.getFloat("montant"));
+            fact.setPaye(ret.getBoolean("paye"));
+
+            listefactures.add(fact);
+        }
         return listefactures;
+
     }
-
-    public int Pay_Facture(int idFacture, String nom, String numVisa, BeanAccesBD BAD)
-    {
-        /*int ret = super.getTuple("select * from clients where nom = " +"'" +  nom + "'" + "AND numvisa = " +"'" + numVisa + "';", BAD);
-
-        if(ret == -1) {
-            //DB Problem
-            return ret;
-        }
-        else
-        {
-            if (BAD.getResult() == null) {
-                //User doesnt exist
-                return 0;
-            }
-            else
-                return 1;
-        }
-
-         */
-        return 0;
-    }
-  
-
 
 }

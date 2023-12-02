@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class VESPAP_BDTest {
 
@@ -37,19 +37,18 @@ public class VESPAP_BDTest {
             throw new RuntimeException(e);
         }
     }
-/*
+
     @Test
     public void testGetFactures() {
         try {
-            // Testez la récupération des factures pour un client donné
-            ArrayList<Factures> factures = vespapBd.Get_Factures(1, beanAccesBD);
-            assertNotNull(factures); // Assurez-vous que la liste des factures n'est pas nulle
-            assertFalse(factures.isEmpty()); // Assurez-vous que la liste des factures n'est pas vide
+            // Assurez-vous d'avoir des données de test dans votre base de données pour cette méthode
+            int clientId = 1; // ID d'un client existant
+            assertNotNull(vespapBd.Get_Factures(clientId)); // Vérifiez que la liste des factures n'est pas nulle
         } catch (SQLException ex) {
-            fail("Erreur SQL : " + ex.getMessage());
+            fail("Erreur : " + ex.getMessage());
         }
     }
-
+/*
     @Test
     public void testPayFacture() {
         try {

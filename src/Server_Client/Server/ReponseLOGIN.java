@@ -4,7 +4,7 @@ import Server_Client.Reponse;
 
 import java.io.Serializable;
 
-public class ReponseLOGIN implements Serializable, Reponse
+public class ReponseLOGIN implements Reponse, Serializable
 {
     private boolean ok;
 

@@ -4,7 +4,7 @@ import Server_Client.Requete;
 
 import java.io.Serializable;
 
-public class RequeteLOGIN implements Serializable, Requete
+public class RequeteLOGIN implements Requete, Serializable
 {
     private String login;
     private String password;

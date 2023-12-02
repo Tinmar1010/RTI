@@ -1,14 +1,15 @@
 package Classe_Metier;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Factures {
-
+public class Factures implements Serializable {
 
     static int idFactures;
     private Date date;
     private float montant;
     private boolean paye;
+    public int idClient;
 
 
     public Factures()
@@ -35,6 +36,7 @@ public class Factures {
     {
         return montant;
     }
+    public int getIdClient(){return idClient;}
 
     public void setIdFactures(int idFactures)
     {
@@ -54,5 +56,9 @@ public class Factures {
     public void setPaye(boolean paye)
     {
         this.paye = paye;
+    }
+    public void setIdClient(int idC)
+    {
+        idClient = idC;
     }
 }

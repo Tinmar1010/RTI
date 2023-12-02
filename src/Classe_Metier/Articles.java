@@ -1,7 +1,9 @@
 package Classe_Metier;
 
 
-public class Articles {
+import java.io.Serializable;
+
+public class Articles implements Serializable {
 
     private int id;
     private int quantite;
