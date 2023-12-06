@@ -1,24 +1,67 @@
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
-public class GUIMaraicherEnLigne {
+public class GUIMaraicherEnLigne extends JFrame{
     private JPanel panel1;
-    private JTextField textField1;
-    private JPasswordField passwordField1;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
     private JButton loginButton;
     private JButton logoutButton;
     private JCheckBox isnewCheckBox;
     private JTable table1;
-    private JButton achatButton;
-    private JButton supprimerButton1;
+    private JButton validerButton;
+    private JButton supprimerButton;
     private JButton viderButton;
-    private JButton button6;
-    private JButton button7;
-    private JTextField textField2;
-    private JTextField textField3;
-    private JTextField textField4;
-    private JTextField textField5;
-    private JLabel Password;
-    private JTextField textField6;
-    private JTextField BIENVENUESURLEMARAICHERTextField;
-    private JButton achatButton1;
+    private JButton previousButton;
+    private JButton nextButton;
+    private JButton achatButton;
+
+    private DefaultTableModel model;
+
+    public GUIMaraicherEnLigne() {
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setContentPane(panel1);
+        setSize(800, 600);
+        setLocationRelativeTo(null);
+        setVisible(true);
+        loginButton.setActionCommand("Login");
+        logoutButton.setActionCommand("Logout");
+        achatButton.setActionCommand("Achat");
+        validerButton.setActionCommand("AchatTot");
+        supprimerButton.setActionCommand("Supprimer");
+        viderButton.setActionCommand("Vider");
+        previousButton.setActionCommand("PrevArticle");
+        nextButton.setActionCommand("NextArticle");
+        logoutButton.setEnabled(false);
+        achatButton.setEnabled(false);
+        validerButton.setEnabled(false);
+        supprimerButton.setEnabled(false);
+        viderButton.setEnabled(false);
+        previousButton.setEnabled(false);
+        nextButton.setEnabled(false);
+
+    }
+    public void setControleur(ControleurAchat c) {
+        loginButton.addActionListener(c);
+        logoutButton.addActionListener(c);
+        achatButton.addActionListener(c);
+        validerButton.addActionListener(c);
+        supprimerButton.addActionListener(c);
+        viderButton.addActionListener(c);
+        previousButton.addActionListener(c);
+        nextButton.addActionListener(c);
+
+        this.addWindowListener(c);
+    }
+    public String getLogin() {
+        return usernameField.getText();
+    }
+
+    public String getPassword() {
+        return passwordField.getText();
+    }
+    public boolean getCheckBox() {
+        return isnewCheckBox.isSelected();
+    }
+
 }
