@@ -1,4 +1,6 @@
 import Client_Achat.protocol.Libsocket;
+import Client_Achat.protocol.OVESP;
+import Client_Achat.protocol.OVESPConnectionError;
 import Server_Client.Client.RequeteLOGIN;
 import Server_Client.Client.RequeteLOGOUT;
 import Server_Client.Server.ReponseLOGIN;
@@ -12,19 +14,54 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 
 public class ControleurAchat implements ActionListener, WindowListener
 {
     private final GUIMaraicherEnLigne fenetre;
-    private final Libsocket server_socket = null;
+    private OVESP ovespConnection;
     public ControleurAchat(GUIMaraicherEnLigne fenetre) throws IOException {
         this.fenetre = fenetre;
-        //this.server_socket = new Libsocket("localhost", 4444);
+        try {
+            this.ovespConnection = new OVESP("localhost", 4444);
+            fenetre.setStatusSuccess("Connecte ! BIENVENUE SUR LE MARAICHER EN LIGNE !");
+        }
+        catch(SocketException se) {
+            fenetre.setStatusError("Connection impossible vers le serveur");
+        }
+
     }
     @Override
     public void actionPerformed(ActionEvent e){
         if(e.getActionCommand().equals("Login"))
         {
+            try {
+                int connectionStatus = ovespConnection.OVESPLogin(fenetre.getLogin(), fenetre.getPassword(), fenetre.getCheckBox());
+                if (connectionStatus == 0) {
+                    JOptionPane.showMessageDialog(fenetre, "Bienvenue " + fenetre.getLogin());
+                }
+                else if (connectionStatus == 1) {
+                    JOptionPane.showMessageDialog(fenetre, "Erreur, le nom d'utilisateur n'existe pas");
+                }
+                else if (connectionStatus == 2) {
+                    JOptionPane.showMessageDialog(fenetre, "Le mot de passe est incorrect !");
+                }
+                else if (connectionStatus == 3) {
+                    JOptionPane.showMessageDialog(fenetre, "Une erreur de base de donnee est survenue !");
+                }
+                else if (connectionStatus == 4) {
+                    JOptionPane.showMessageDialog(fenetre, "Le nom d'utilisateur existe deja !");
+                }
+                else if (connectionStatus == -1) {
+                    JOptionPane.showMessageDialog(fenetre, "Connection avec le serveur perdue !");
+                }
+                else if (connectionStatus >= -2) {
+                    JOptionPane.showMessageDialog(fenetre, "Une erreur interne au serveur est survenue !");
+                }
+
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
 
         }
         if(e.getActionCommand().equals("Logout"))

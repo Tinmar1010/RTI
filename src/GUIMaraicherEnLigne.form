@@ -296,7 +296,7 @@
             </constraints>
             <properties>
               <horizontalAlignment value="0"/>
-              <text value="BIENVENUE SUR LE MARAICHER EN LIGNE"/>
+              <text value=""/>
             </properties>
           </component>
         </children>

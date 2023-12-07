@@ -49,7 +49,7 @@ public class Libsocket{
     public String Receive_msg() throws IOException {
         byte has_next_packet = 0;
         byte[] header;
-        String message = null;
+        String message = "";
 
         do {
             header = dis.readNBytes(5);

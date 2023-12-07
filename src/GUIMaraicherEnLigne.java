@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 
 public class GUIMaraicherEnLigne extends JFrame{
     private JPanel panel1;
@@ -70,6 +71,14 @@ public class GUIMaraicherEnLigne extends JFrame{
     }
     public boolean getCheckBox() {
         return isnewCheckBox.isSelected();
+    }
+    public void setStatusError(String errorMessage) {
+        BIENVENUESURLEMARAICHERTextField.setForeground(Color.RED);
+        BIENVENUESURLEMARAICHERTextField.setText(errorMessage);
+    }
+    public void setStatusSuccess(String successMessage) {
+        BIENVENUESURLEMARAICHERTextField.setForeground(Color.GREEN);
+        BIENVENUESURLEMARAICHERTextField.setText(successMessage);
     }
 
 }
