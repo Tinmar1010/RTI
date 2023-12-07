@@ -15,10 +15,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
 
 public class ControleurAchat implements ActionListener, WindowListener
 {
     private final GUIMaraicherEnLigne fenetre;
+    private int currentArticle = 1;
     private OVESP ovespConnection;
     public ControleurAchat(GUIMaraicherEnLigne fenetre) throws IOException {
         this.fenetre = fenetre;
@@ -39,6 +41,7 @@ public class ControleurAchat implements ActionListener, WindowListener
                 int connectionStatus = ovespConnection.OVESPLogin(fenetre.getLogin(), fenetre.getPassword(), fenetre.getCheckBox());
                 if (connectionStatus == 0) {
                     JOptionPane.showMessageDialog(fenetre, "Bienvenue " + fenetre.getLogin());
+                    fenetre.setGuiLogin();
                 }
                 else if (connectionStatus == 1) {
                     JOptionPane.showMessageDialog(fenetre, "Erreur, le nom d'utilisateur n'existe pas");
@@ -86,6 +89,25 @@ public class ControleurAchat implements ActionListener, WindowListener
         }
         if(e.getActionCommand().equals("PrevArticle"))
         {
+            try {
+                int ArticleError = ovespConnection.OVESPConsult(--currentArticle);
+                if (ArticleError == 1) {
+                    JOptionPane.showMessageDialog(fenetre, "L'article n'existe pas !");
+                    ++currentArticle;
+                }
+                else if (ArticleError == -1) {
+                    JOptionPane.showMessageDialog(fenetre, "Une erreur interne au serveur est survenue !");
+                }
+                else {
+                    ArrayList<String> response = ovespConnection.getResponse();
+                    fenetre.setNameField(response.get(1).trim());
+                    fenetre.setPriceField(response.get(2).trim());
+                    fenetre.setStockField(response.get(3).trim());
+                    fenetre.setImage(response.get(4).trim());
+                }
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
 
         }
         if(e.getActionCommand().equals("NextArticle"))

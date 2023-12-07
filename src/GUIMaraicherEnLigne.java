@@ -24,6 +24,7 @@ public class GUIMaraicherEnLigne extends JFrame{
     private JTextField quantityField;
     private JTextField totalLabel;
     private JTextField BIENVENUESURLEMARAICHERTextField;
+    private JLabel Image;
 
     private DefaultTableModel model;
 
@@ -79,6 +80,52 @@ public class GUIMaraicherEnLigne extends JFrame{
     public void setStatusSuccess(String successMessage) {
         BIENVENUESURLEMARAICHERTextField.setForeground(Color.GREEN);
         BIENVENUESURLEMARAICHERTextField.setText(successMessage);
+    }
+    public void disableLoginButton() {
+        loginButton.setEnabled(false);
+    }
+    public void enableLoginButton() {
+        loginButton.setEnabled(true);
+    }
+    public void disableLogoutButton() {
+        logoutButton.setEnabled(false);
+    }
+    public void enableLogoutButton() {
+        logoutButton.setEnabled(true);
+    }
+    public void setNameField(String value) {
+        nameField.setText(value);
+    }
+    public void setPriceField(String price) {
+        priceField.setText(price);
+    }
+    public void setStockField(String stock) {
+        stockField.setText(stock);
+    }
+    public void setImage(String imagePath) {
+        ImageIcon icon = new ImageIcon(imagePath);
+        Image.setIcon(icon);
+    }
+
+    public void setGuiLogin() {
+        logoutButton.setEnabled(true);
+        achatButton.setEnabled(true);
+        validerButton.setEnabled(true);
+        supprimerButton.setEnabled(true);
+        viderButton.setEnabled(true);
+        previousButton.setEnabled(true);
+        nextButton.setEnabled(true);
+        loginButton.setEnabled(false);
+    }
+    public void setGuiLogout() {
+        loginButton.setEnabled(true);
+        logoutButton.setEnabled(false);
+        achatButton.setEnabled(false);
+        validerButton.setEnabled(false);
+        supprimerButton.setEnabled(false);
+        viderButton.setEnabled(false);
+        previousButton.setEnabled(false);
+        nextButton.setEnabled(false);
     }
 
 }
