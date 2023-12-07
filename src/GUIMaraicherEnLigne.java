@@ -15,6 +15,14 @@ public class GUIMaraicherEnLigne extends JFrame{
     private JButton previousButton;
     private JButton nextButton;
     private JButton achatButton;
+    private JLabel passwordLabel;
+    private JLabel loginLabel;
+    private JTextField nameField;
+    private JTextField priceField;
+    private JTextField stockField;
+    private JTextField quantityField;
+    private JTextField totalLabel;
+    private JTextField BIENVENUESURLEMARAICHERTextField;
 
     private DefaultTableModel model;
 
