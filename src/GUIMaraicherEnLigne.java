@@ -1,3 +1,5 @@
+import Classe_Metier.Articles;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -28,7 +30,13 @@ public class GUIMaraicherEnLigne extends JFrame{
 
     private DefaultTableModel model;
 
+    String[] Column = {"Article", "Prix à l'unité", "Quantité"};
+
     public GUIMaraicherEnLigne() {
+
+        model = new DefaultTableModel(null, Column);
+        table1.setModel(model);
+        setContentPane(panel1);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(panel1);
         setSize(800, 600);
@@ -49,6 +57,7 @@ public class GUIMaraicherEnLigne extends JFrame{
         viderButton.setEnabled(false);
         previousButton.setEnabled(false);
         nextButton.setEnabled(false);
+        quantityField.setEnabled(false);
 
     }
     public void setControleur(ControleurAchat c) {
@@ -102,8 +111,18 @@ public class GUIMaraicherEnLigne extends JFrame{
     public void setStockField(String stock) {
         stockField.setText(stock);
     }
+
+    public String getQuantityField() {
+        return quantityField.getText();
+    }
+    public int getStockField() {
+        return Integer.parseInt(stockField.getText());
+    }
     public void setImage(String imagePath) {
-        ImageIcon icon = new ImageIcon(imagePath);
+        StringBuilder _sb = new StringBuilder(imagePath);
+        _sb.insert(0, "images/");
+
+        ImageIcon icon = new ImageIcon(_sb.toString());
         Image.setIcon(icon);
     }
 
@@ -116,6 +135,7 @@ public class GUIMaraicherEnLigne extends JFrame{
         previousButton.setEnabled(true);
         nextButton.setEnabled(true);
         loginButton.setEnabled(false);
+        quantityField.setEnabled(true);
     }
     public void setGuiLogout() {
         loginButton.setEnabled(true);
@@ -126,6 +146,20 @@ public class GUIMaraicherEnLigne extends JFrame{
         viderButton.setEnabled(false);
         previousButton.setEnabled(false);
         nextButton.setEnabled(false);
+        quantityField.setEnabled(false);
+    }
+
+    public void addArticle(Articles art) {
+        model.addRow(new Object[] {art.getIntitule(), art.getPrix(), art.getQuantite()});
+    }
+    public void setArticle(Articles art) {
+        setNameField(art.getIntitule());
+        setImage(art.getImage());
+        setPriceField(String.valueOf(art.getPrix()));
+        setStockField(String.valueOf(art.getQuantite()));
+    }
+    public void clearEntries() {
+        model.setRowCount(0);
     }
 
 }
