@@ -5,11 +5,18 @@ import java.net.SocketException;
 import java.util.*;
 
 public class OVESP {
-        private final Libsocket serverConnection;
+        private Libsocket serverConnection;
+        private boolean socketConnected;
         private ArrayList<String> current_request;
 
-    public OVESP(String ip, int port) throws IOException{
+    public OVESP() throws IOException{
+        serverConnection = null;
+        socketConnected = false;
+        current_request = null;
+    }
+    public void OVESP_Connect(String ip, int port) throws IOException {
         this.serverConnection = new Libsocket(ip, port);
+        this.socketConnected = true;
     }
     public int OVESPLogin(String username, String Password, boolean newUserFlag) throws IOException {
         ArrayList<String> request = new ArrayList<String>();
@@ -122,6 +129,50 @@ public class OVESP {
         }
 
     }
+
+    public int OVESPCancel(int idArticle, int Quantity) throws IOException {
+        ArrayList<String> request = new ArrayList<String>();
+        request.add("CANCEL");
+        request.add(Integer.toString(idArticle));
+        request.add(Integer.toString(Quantity));
+        serverConnection.SendMsg(createRequest(request));
+
+        String[] response = serverConnection.Receive_msg().split("#");
+
+        if (response[0].trim().equals("CANCEL")) {
+            if (response[1].trim().equals("-1")) {
+                return 1;
+            }
+            else {
+                // Why collections in every function ?
+                current_request = new ArrayList<String>();
+                Collections.addAll(current_request, response);
+                return 0;
+            }
+        }
+        else {
+            return -1;
+        }
+
+    }
+    public int OVESPConfirmer(String username) throws IOException {
+        ArrayList<String> request = new ArrayList<String>();
+        request.add("CONFIRMER");
+        request.add(username);
+        serverConnection.SendMsg(createRequest(request));
+
+        String[] response = serverConnection.Receive_msg().split("#");
+
+        if (response[0].trim().equals("CONFIRMER")) {
+            if (response[1].trim().equals("-1")) {
+                return 1;
+            }
+        }
+        else {
+            return -1;
+        }
+        return 0;
+    }
     private String createRequest(ArrayList<String> tokens) {
         StringBuilder request = new StringBuilder();
         for (String s: tokens) {
@@ -129,8 +180,16 @@ public class OVESP {
         }
         return request.toString();
     }
+    public void OVESP_Disconnect() throws IOException {
+        serverConnection.closeConnection();
+        this.socketConnected = false;
+    }
     public ArrayList<String> getResponse() {
         return current_request;
+    }
+
+    public boolean isSocketAlive() {
+        return socketConnected;
     }
 
 }

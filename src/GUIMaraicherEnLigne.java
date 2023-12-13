@@ -3,6 +3,8 @@ import Classe_Metier.Articles;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GUIMaraicherEnLigne extends JFrame{
     private JPanel panel1;
@@ -30,12 +32,14 @@ public class GUIMaraicherEnLigne extends JFrame{
 
     private DefaultTableModel model;
 
-    String[] Column = {"Article", "Prix à l'unité", "Quantité"};
+    String[] Column = {"ID","Article", "Prix à l'unité", "Quantité", "Image"};
 
     public GUIMaraicherEnLigne() {
 
         model = new DefaultTableModel(null, Column);
         table1.setModel(model);
+        table1.removeColumn(table1.getColumnModel().getColumn(0)); // Remove ID column
+        table1.removeColumn(table1.getColumnModel().getColumn(3)); // Remove Image column
         setContentPane(panel1);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setContentPane(panel1);
@@ -45,7 +49,7 @@ public class GUIMaraicherEnLigne extends JFrame{
         loginButton.setActionCommand("Login");
         logoutButton.setActionCommand("Logout");
         achatButton.setActionCommand("Achat");
-        validerButton.setActionCommand("AchatTot");
+        validerButton.setActionCommand("CONFIRM");
         supprimerButton.setActionCommand("Supprimer");
         viderButton.setActionCommand("Vider");
         previousButton.setActionCommand("PrevArticle");
@@ -149,8 +153,14 @@ public class GUIMaraicherEnLigne extends JFrame{
         quantityField.setEnabled(false);
     }
 
+    public void clearArticle() {
+        setNameField("");
+        setImage("");
+        setPriceField("");
+        setStockField("");
+    }
     public void addArticle(Articles art) {
-        model.addRow(new Object[] {art.getIntitule(), art.getPrix(), art.getQuantite()});
+        model.addRow(new Object[] {art.getId(), art.getIntitule(), art.getPrix(), art.getQuantite(), art.getImage()});
     }
     public void setArticle(Articles art) {
         setNameField(art.getIntitule());
@@ -160,6 +170,34 @@ public class GUIMaraicherEnLigne extends JFrame{
     }
     public void clearEntries() {
         model.setRowCount(0);
+    }
+
+    public Articles getSelectedArticle() {
+        int value = table1.getSelectedRow();
+        if (value == -1)
+            return null;
+        else {
+
+            Articles art = new Articles((Integer)model.getValueAt(value, 0), (String)model.getValueAt(value, 1), (Float)model.getValueAt(value, 2), (Integer)model.getValueAt(value, 3), (String)model.getValueAt(value, 4));
+            return art;
+        }
+
+    }
+
+    public List<Articles> getAllArticles() {
+        List<Articles> articlesList = new ArrayList<Articles>();
+        for (int i = 0; i < model.getRowCount(); i++) {
+            Articles art = new Articles((Integer)model.getValueAt(i, 0), (String)model.getValueAt(i, 1), (Float)model.getValueAt(i, 2), (Integer)model.getValueAt(i, 3), (String)model.getValueAt(i, 4));
+            articlesList.add(art);
+        }
+        return articlesList;
+    }
+
+    public int isBucketEmpty() {
+        return table1.getRowCount();
+    }
+    public int isArticleSelected() {
+        return table1.getSelectedRow();
     }
 
 }

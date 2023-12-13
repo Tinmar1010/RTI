@@ -1,6 +1,7 @@
 package Client_Achat.protocol;
 
 import java.io.*;
+import java.math.BigInteger;
 import java.net.Socket;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
@@ -12,9 +13,11 @@ import java.util.List;
 public class Libsocket{
     private final OutputStream dos;
     private final InputStream dis;
+    private final Socket client_socket;
+
 
     public Libsocket(String target_ip, int target_port) throws IOException {
-        Socket client_socket = new Socket(target_ip, target_port);
+        client_socket = new Socket(target_ip, target_port);
         dos = client_socket.getOutputStream();
         dis = client_socket.getInputStream();
     }
@@ -52,11 +55,18 @@ public class Libsocket{
         do {
             header = dis.readNBytes(5);
             has_next_packet = header[0];
-            String current_message = new String(dis.readNBytes(header[1]));
+            ByteBuffer byteBuffer = ByteBuffer.wrap(header, 1, 4);
+            byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+
+            String current_message = new String(dis.readNBytes(byteBuffer.getInt()));
             message.append(current_message);
 
         }while (has_next_packet == 1);
 
         return message.toString();
+    }
+
+    public void closeConnection() throws IOException {
+        client_socket.close();
     }
 }
