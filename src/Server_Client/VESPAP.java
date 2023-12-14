@@ -76,7 +76,13 @@ public class VESPAP implements Protocole {
         logger.Trace("RequetePayFactures ");
         boolean isOK = AlgoLuhn(requete.getNumeroCarte());
         if(isOK)
-            return new ReponsePAYFACTURE(true);
+        {
+            int rep = vespapBd.Pay_Facture(requete.getIdFacture());
+            if(rep ==1)
+                return new ReponsePAYFACTURE(true);
+            else
+                return new ReponsePAYFACTURE(false);
+        }
         else
             return new ReponsePAYFACTURE(false);
     }

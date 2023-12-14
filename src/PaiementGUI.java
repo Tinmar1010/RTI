@@ -33,8 +33,8 @@ public class PaiementGUI extends JFrame {
         showButton.setActionCommand("Show");
         payerButton.setActionCommand("Payer");
         showButton.setEnabled(false);
-        payerButton.setEnabled(true);
-
+        payerButton.setEnabled(false);
+        logoutButton.setEnabled(false);
     }
 
     public void setControleur(ControleurPaiement c) {
@@ -68,10 +68,19 @@ public class PaiementGUI extends JFrame {
     {
         showButton.setEnabled(true);
         payerButton.setEnabled(true);
+        logoutButton.setEnabled(true);
+        loginButton.setEnabled(false);
+    }
+    public void isDeconnected()
+    {
+        showButton.setEnabled(false);
+        payerButton.setEnabled(false);
+        logoutButton.setEnabled(false);
+        loginButton.setEnabled(true);
     }
 
     public void addFactures(Factures factures) {
-        model.addRow(new Object[]{factures.getIdFactures(), factures.getIdClient(), factures.getDate(), factures.getMontant(), factures.getDate()});
+        model.addRow(new Object[]{factures.getIdFactures(), factures.getIdClient(), factures.getDate(), factures.getMontant(), factures.isPaye()});
     }
 
     public void supprimerLigne() {
@@ -81,6 +90,12 @@ public class PaiementGUI extends JFrame {
     public int RecupId()
     {
         int line = table1.getSelectedRow();
-        return (int)table1.getValueAt(line, 0);
+        int rep = (int)table1.getValueAt(line, 0);
+        if(rep==-1) {
+            JOptionPane.showMessageDialog(this, "Pas de facture selectionnée");
+            return rep;
+        }
+        else
+            return rep;
     }
 }

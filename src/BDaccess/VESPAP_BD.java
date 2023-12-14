@@ -38,13 +38,8 @@ public class VESPAP_BD {
         else
         {
             int rep = bdacces.executeUpdate("INSERT INTO clients VALUES (0, \""+login+"\", \""+password+"\");");
-            if (rep == -1)
-            {
-                //DB error
-                return rep;
-            }
-            else //Succes
-                return rep;
+
+            return rep;
         }
     }
     private int check_user_password(String login, String password) throws SQLException, ClassNotFoundException {
@@ -102,5 +97,13 @@ public class VESPAP_BD {
         return listefactures;
 
     }
-
+    public int Pay_Facture(int idFactures) throws SQLException {
+        int rep = 0;
+        try {
+            rep = bdacces.executeUpdate("UPDATE factures SET paye = 1 WHERE id = " +idFactures + ";");
+            return rep;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

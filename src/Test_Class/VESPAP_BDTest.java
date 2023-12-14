@@ -48,17 +48,17 @@ public class VESPAP_BDTest {
             fail("Erreur : " + ex.getMessage());
         }
     }
-/*
+
     @Test
     public void testPayFacture() {
         try {
             // Testez le paiement d'une facture
-            int paymentResult = vespapBd.Pay_Facture(1, "nom_client", "num_visa", beanAccesBD);
-            assertEquals(0, paymentResult); // Dans votre implémentation actuelle, cela retourne toujours 0
+            int paymentResult = vespapBd.Pay_Facture(1);
+            assertEquals(1, paymentResult); // Dans votre implémentation actuelle, cela retourne toujours 0
         } catch (SQLException ex) {
             fail("Erreur SQL : " + ex.getMessage());
         }
-    }*/
+    }
 
     @After
     public void tearDown() throws SQLException {

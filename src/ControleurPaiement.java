@@ -8,6 +8,7 @@ import Server_Client.Server.ReponseLOGIN;
 import Server_Client.Server.ReponsePAYFACTURE;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -39,13 +40,21 @@ public class ControleurPaiement implements ActionListener, WindowListener
                 socket = new Socket("127.0.0.0",50000);
                 oos = new ObjectOutputStream(socket.getOutputStream());
                 ois = new ObjectInputStream(socket.getInputStream());
-                RequeteLOGIN requete = new RequeteLOGIN(fenetre.getLogin(), fenetre.getPassword(), fenetre.getCheckBox());
-                oos.writeObject(requete);
-                ReponseLOGIN reponse= (ReponseLOGIN) ois.readObject();
-                if(reponse.isOk())
-                    fenetre.isConnected();
+                if(fenetre.getLogin().isEmpty()||fenetre.getPassword().isEmpty())
+                {
+                    JOptionPane.showMessageDialog(fenetre, "Veuillez entrer votre login ou votre mdp");
+                }
                 else
-                    JOptionPane.showMessageDialog(fenetre, "Erreur de login");
+                {
+                    RequeteLOGIN requete = new RequeteLOGIN(fenetre.getLogin(), fenetre.getPassword(), fenetre.getCheckBox());
+                    oos.writeObject(requete);
+                    ReponseLOGIN reponse= (ReponseLOGIN) ois.readObject();
+                    if(reponse.isOk())
+                        fenetre.isConnected();
+                    else
+                        JOptionPane.showMessageDialog(fenetre, "Erreur de login");
+                }
+
             }
             catch (IOException | ClassNotFoundException ex)
             {
@@ -54,12 +63,13 @@ public class ControleurPaiement implements ActionListener, WindowListener
         }
         if(e.getActionCommand().equals("Logout"))
         {
-
-            try {
+            try
+            {
                 RequeteLOGOUT requete = new RequeteLOGOUT();
                 oos.close();
                 ois.close();
                 socket.close();
+                fenetre.isDeconnected();
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -80,44 +90,52 @@ public class ControleurPaiement implements ActionListener, WindowListener
                         fenetre.addFactures(factures.get(i));
                         i++;
                     }
-                    JOptionPane.showMessageDialog(fenetre, "Erreur d'achat");
                 }
                 else
-                    System.out.println("Error");
+                    JOptionPane.showMessageDialog(fenetre, "Erreur d'achat");
             } catch (IOException | ClassNotFoundException ex) {
                 throw new RuntimeException(ex);
             }
         }
         if(e.getActionCommand().equals("Payer"))
         {
-            try
+            JDialog Dialog = new JDialog(fenetre, "");
+            JLabel label = new JLabel("Entrez votre numéro de compte:");
+            JTextField numeroCompteTextField = new JTextField(20);
+            JButton payerButton = new JButton("Payer");
+
+            // Ajout des composants à la fenêtre
+            Dialog.setLayout(new BorderLayout());
+            Dialog.add(label, BorderLayout.NORTH);
+            Dialog.add(numeroCompteTextField, BorderLayout.CENTER);
+            Dialog.add(payerButton, BorderLayout.SOUTH);
+            Dialog.setSize(400, 300);
+            Dialog.setVisible(true);
+            payerButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e)
             {
-                JDialog jDialog = new JDialog(fenetre, "Entrez votre numero de compte");
-                JTextField t = new JTextField();
-                jDialog.add(t);
-                jDialog.setSize(400, 200);
-                jDialog.setVisible(true);
-                RequetePAYFACTURE requete = new RequetePAYFACTURE(fenetre.RecupId(), t.getText());
-                oos.writeObject(requete);
-                ReponsePAYFACTURE reponse = (ReponsePAYFACTURE)ois.readObject();
-                if(reponse.isOk())
+                try
                 {
-
+                    if(fenetre.RecupId()!=-1)
+                    {
+                        RequetePAYFACTURE requete = new RequetePAYFACTURE(fenetre.RecupId(), numeroCompteTextField.getText());
+                        oos.writeObject(requete);
+                        ReponsePAYFACTURE reponse = (ReponsePAYFACTURE) ois.readObject();
+                        if (reponse.isOk())
+                            JOptionPane.showMessageDialog(fenetre, "Paiement Ok");
+                        else
+                            JOptionPane.showMessageDialog(fenetre, "Erreur de paiement");
+                    }
                 }
-                else
+                catch (IOException | ClassNotFoundException ex)
                 {
-                    JOptionPane.showMessageDialog(fenetre, "Erreur de paiement");
-
+                    throw new RuntimeException(ex);
                 }
             }
-            catch (IOException ex)
-            {
-                throw new RuntimeException(ex);
-            } catch (ClassNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-
+            });
         }
+
     }
     @Override
     public void windowOpened(WindowEvent e) {}
