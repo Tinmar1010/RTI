@@ -1,18 +1,19 @@
-import Server_Client.ServerVESPAP;
+import Server_Client.ServerVESPAPS;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import java.io.IOException;
+import java.security.Security;
 import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException, IOException
     {
-        ServerVESPAP ServerVESPAP = new ServerVESPAP();
-        ServerVESPAP.start();
-        PaiementGUI fenetre = new PaiementGUI();
-        ControleurPaiement controleur = new ControleurPaiement (fenetre);
+        Security.addProvider(new BouncyCastleProvider());
+        ServerVESPAPS ServerVESPAPS = new ServerVESPAPS();
+        ServerVESPAPS.start();
+        PaiementSecureGUI fenetre = new PaiementSecureGUI();
+        ControleurPaiementSecure controleur = new ControleurPaiementSecure (fenetre);
         fenetre.setControleur(controleur);
-        /*PaiementGUI fenetre1 = new PaiementGUI();
-        ControleurPaiement controleur1 = new ControleurPaiement (fenetre1);
-        fenetre.setControleur(controleur1);*/
+
     }
 }

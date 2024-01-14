@@ -1,9 +1,14 @@
 package Server_Client;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.security.*;
+import java.security.cert.CertificateException;
 import java.sql.SQLException;
 
 public abstract class ThreadClient extends Thread
@@ -45,7 +50,9 @@ public abstract class ThreadClient extends Thread
                 logger.Trace("Fin connexion demandée par protocole");
                 if (oos != null && ex.getReponse() != null)
                     oos.writeObject(ex.getReponse());
-            } catch (SQLException e) {
+            } catch (SQLException | NoSuchAlgorithmException | NoSuchProviderException | CertificateException |
+                     KeyStoreException | SignatureException | InvalidKeyException | UnrecoverableKeyException |
+                     NoSuchPaddingException | IllegalBlockSizeException | BadPaddingException e) {
                 throw new RuntimeException(e);
             }
         }

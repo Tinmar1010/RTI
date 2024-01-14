@@ -27,6 +27,15 @@ public class VESPAP_BD {
             return ret;
         }
     }
+    public String get_the_password(String login)throws SQLException, ClassNotFoundException {
+
+        ResultSet result = bdacces.executeQuery("SELECT * FROM clients where login = " + "\"" +login + "\";");
+        result.next();
+        String mdp = result.getString("password");
+        System.out.println(mdp);
+        return mdp;
+
+    }
     private int create_new_user(String login, String password) throws SQLException, ClassNotFoundException {
 
         ResultSet result =  check_user(login);
@@ -37,6 +46,7 @@ public class VESPAP_BD {
         }
         else
         {
+            System.out.println("Login = " + login);
             int rep = bdacces.executeUpdate("INSERT INTO clients VALUES (0, \""+login+"\", \""+password+"\");");
 
             return rep;
