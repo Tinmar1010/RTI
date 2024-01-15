@@ -2,7 +2,6 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/laborti2022-2023" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/laborti2022-2023/lib/libsockets" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/laborti2022-2023" vcs="svn" />
   </component>
 </project>

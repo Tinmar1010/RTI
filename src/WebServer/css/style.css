@@ -1,0 +1,37 @@
+html
+{
+    background: lightgreen;
+    padding-top: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+#conteneur
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+#bloc0
+{
+    background-color: darkgreen;
+    color: white;
+    text-align:center;
+    font-size: x-large;
+    border-style: solid;
+    box-sizing: content-box;
+    border-width: thick;
+    border-color: black;
+}
+table {
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+
+table td {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+table tr:first-child {
+    color: black;
+}

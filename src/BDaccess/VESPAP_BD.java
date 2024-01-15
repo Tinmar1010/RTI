@@ -107,6 +107,27 @@ public class VESPAP_BD {
         return listefactures;
 
     }
+
+    public ArrayList<Articles> Get_Articles() throws SQLException
+    {
+        ArrayList<Articles> listeArticles = new ArrayList<Articles>();
+
+        ResultSet ret = bdacces.executeQuery("select * from articles ;");
+
+        while(ret.next())
+        {
+            Articles art = new Articles();
+            art.setId(ret.getInt("id"));
+            art.setIntitule(ret.getString("intitule"));
+            art.setPrix(ret.getFloat("prix"));
+            art.setQuantite(ret.getInt("stock"));
+            art.setImage(ret.getString("image"));
+
+            listeArticles.add(art);
+        }
+        return listeArticles;
+
+    }
     public int Pay_Facture(int idFactures) throws SQLException {
         int rep = 0;
         try {
