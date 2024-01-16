@@ -108,6 +108,7 @@ public class VESPAP_BD {
 
     }
 
+
     public ArrayList<Articles> Get_Articles() throws SQLException
     {
         ArrayList<Articles> listeArticles = new ArrayList<Articles>();
@@ -136,5 +137,17 @@ public class VESPAP_BD {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    public int Change_price(int idArticle, float prixArticle)throws SQLException
+    {
+        int rep = 0;
+        rep = bdacces.executeUpdate("UPDATE factures SET prix = "+prixArticle+" WHERE id = " +idArticle + ";");
+        return rep;
+    }
+    public int Change_Qantity(int idArticle, float quantiteArticle)throws SQLException
+    {
+        int rep = 0;
+        rep = bdacces.executeUpdate("UPDATE factures SET prix = "+quantiteArticle+" WHERE id = " +idArticle + ";");
+        return rep;
     }
 }

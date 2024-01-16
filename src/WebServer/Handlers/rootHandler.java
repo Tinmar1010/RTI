@@ -14,22 +14,49 @@ public class rootHandler implements HttpHandler {
     {
         System.out.println("Nouvelle requete vers index.html recue !");
         String requestMethod = exchange.getRequestMethod();
+        String requestPath = exchange.getRequestURI().getPath();
 
         if (requestMethod.equalsIgnoreCase("GET"))
         {
-            File file = new File("src/WebServer/index.html");
-            if (file.exists())
+            /* if .html provided, try to open it and send it */
+            if (requestPath.endsWith(".html"))
             {
-                exchange.sendResponseHeaders(200, file.length());
-                exchange.getResponseHeaders().set("Content-Type", "text/html");
-                OutputStream os = exchange.getResponseBody();
-                Files.copy(file.toPath(), os);
-                os.close();
-                System.out.println("OK");
+                File file = new File("src/WebServer/"+requestPath);
+                if (file.exists())
+                {
+                    exchange.sendResponseHeaders(200, file.length());
+                    exchange.getResponseHeaders().set("Content-Type", "text/html");
+                    OutputStream os = exchange.getResponseBody();
+                    Files.copy(file.toPath(), os);
+                    os.close();
+                    System.out.println("OK");
+                }
+                else
+                    Erreur404(exchange);
+
             }
-            else Erreur404(exchange);
+            /* If not, show the default page */
+            else
+            {
+                File file = new File("src/WebServer/index.html");
+                if (file.exists())
+                {
+                    exchange.sendResponseHeaders(200, file.length());
+                    exchange.getResponseHeaders().set("Content-Type", "text/html");
+                    OutputStream os = exchange.getResponseBody();
+                    Files.copy(file.toPath(), os);
+                    os.close();
+                    System.out.println("OK");
+                }
+                else
+                    Erreur404(exchange);
+
+            }
+
+
         }
-        else Erreur404(exchange);
+        else
+            Erreur404(exchange);
 
     }
     private void Erreur404(HttpExchange exchange) throws IOException

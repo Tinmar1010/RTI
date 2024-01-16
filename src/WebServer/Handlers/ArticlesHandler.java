@@ -30,6 +30,11 @@ public class ArticlesHandler implements HttpHandler {
             sendResponse(exchange, 200, reponseArticles);
 
         }
+        if(requestMethod.equalsIgnoreCase("PUT"))
+        {
+            System.out.println("Nouvelle requete de type PUT sur Articles");
+
+        }
     }
 
     private static void sendResponse(HttpExchange exchange, int statusCode, String response) throws IOException {

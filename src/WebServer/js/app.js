@@ -1,8 +1,25 @@
 (function ()
 {
-    console.log("chris");
     miseAJourTable();
 })();
+
+document.getElementById('update').addEventListener("click", function (e)
+{
+    var xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function ()
+    {
+        if(this.readyState == 4 && this.status == 200)
+        {
+            miseAJourTable();
+        }
+        xhr.open("PUT", "http://localhost:8080/api/articles", true)
+        xhr.responseType =  "text";
+
+    }
+});
+
+
 function miseAJourTable()
 {
     var xhr = new XMLHttpRequest();
@@ -47,5 +64,15 @@ function ajouteLigne(id, intitule, prix, stock)
     nouvelleLigne.appendChild(celluleArticle);
     nouvelleLigne.appendChild(cellulePrix);
     nouvelleLigne.appendChild(celluleQuantite);
+    nouvelleLigne.addEventListener("click", function() {
+        var idArticle = document.getElementById('id');
+        idArticle.value = this.children[0].innerText;
+        var ArticleNom = document.getElementById('article');
+        ArticleNom.value = this.children[1].innerText;
+        var prixUnite = document.getElementById('prix');
+        prixUnite.value = this.children[2].innerText;
+        var quantite = document.getElementById('quantite');
+        quantite.value = this.children[3].innerText;
+    });
     maTable.appendChild(nouvelleLigne);
 }
