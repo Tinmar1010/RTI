@@ -5,18 +5,34 @@
 
 document.getElementById('update').addEventListener("click", function (e)
 {
+    var image = (document.getElementById('article').value) + ".jpg";
+    const request = {id:document.getElementById('id').value,
+        intitule:document.getElementById('article').value,
+        prix:document.getElementById('prix').value,
+        stock:document.getElementById('quantite').value,
+        image:image};
+
     var xhr = new XMLHttpRequest();
+    console.log("Gros ZIZI");
 
     xhr.onreadystatechange = function ()
     {
         if(this.readyState == 4 && this.status == 200)
         {
             miseAJourTable();
+            alert(this.responseText);
         }
-        xhr.open("PUT", "http://localhost:8080/api/articles", true)
-        xhr.responseType =  "text";
-
+        else if (this.readyState == 4 && this.status == 400)
+        {
+            alert(this.responseText);
+        }
     }
+    xhr.open("PUT", "http://localhost:8080/api/articles", true)
+    xhr.responseType =  "text";
+    xhr.setRequestHeader("Content-type", "application/json");
+
+    console.log(JSON.stringify(request));
+    xhr.send(JSON.stringify(request));
 });
 
 

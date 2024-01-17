@@ -1,10 +1,5 @@
 import Classe_Metier.Articles;
-import Client_Achat.protocol.Libsocket;
 import Client_Achat.protocol.OVESP;
-import Client_Achat.protocol.OVESPConnectionError;
-import Server_Client.Client.RequeteLOGIN;
-import Server_Client.Client.RequeteLOGOUT;
-import Server_Client.Server.ReponseLOGIN;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,10 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -216,7 +207,7 @@ public class ControleurAchat implements ActionListener, WindowListener
 
         if (art != null) {
             try {
-                cancelError = ovespConnection.OVESPCancel(art.getId(), art.getQuantite());
+                cancelError = ovespConnection.OVESPCancel(art.getId(), art.getStock());
                 if (cancelError == -2) {
                     JOptionPane.showMessageDialog(fenetre, "Une erreur interne est survenue !");
                     return 1;

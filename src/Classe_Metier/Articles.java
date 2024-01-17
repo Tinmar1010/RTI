@@ -7,7 +7,7 @@ public class Articles implements Serializable {
 
     private String intitule;
     private int id;
-    private int quantite;
+    private int stock;
     private float prix;
     private String image;
     public Articles()
@@ -15,27 +15,27 @@ public class Articles implements Serializable {
         setId(0);
         setImage("Carottes.jpg");
         setPrix(1);
-        setQuantite(0);
+        setStock(0);
         setIntitule("");
     }
-    public Articles(int id, int quantite, float prix, String images)
+    public Articles(int id, int stock, float prix, String images)
     {
-        setQuantite(quantite);
+        setStock(stock);
         setId(id);
         setImage(images);
         setPrix(prix);
     }
-    public Articles(int id, String intitule, float prix, int quantite, String image) {
+    public Articles(int id, String intitule, float prix, int stock, String image) {
         setId(id);
         setIntitule(intitule);
         setPrix(prix);
-        setQuantite(quantite);
+        setStock(stock);
         setImage(image);
     }
-    public Articles(String inti, float prix, int quantite) {
+    public Articles(String inti, float prix, int stock) {
         setIntitule(inti);
         setPrix(prix);
-        setQuantite(quantite);
+        setStock(stock);
     }
 
     public void setId(int id)
@@ -56,10 +56,10 @@ public class Articles implements Serializable {
             this.prix = prix;
     }
 
-    public void setQuantite(int quantite)
+    public void setStock(int stock)
     {
-        if(quantite>=0)
-            this.quantite = quantite;
+        if(stock >=0)
+            this.stock = stock;
     }
     public void setIntitule(String inti)
     {
@@ -70,9 +70,9 @@ public class Articles implements Serializable {
     {
         return this.id;
     }
-    public int getQuantite()
+    public int getStock()
     {
-        return this.quantite;
+        return this.stock;
     }
     public float getPrix()
     {

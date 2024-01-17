@@ -160,13 +160,13 @@ public class GUIMaraicherEnLigne extends JFrame{
         setStockField("");
     }
     public void addArticle(Articles art) {
-        model.addRow(new Object[] {art.getId(), art.getIntitule(), art.getPrix(), art.getQuantite(), art.getImage()});
+        model.addRow(new Object[] {art.getId(), art.getIntitule(), art.getPrix(), art.getStock(), art.getImage()});
     }
     public void setArticle(Articles art) {
         setNameField(art.getIntitule());
         setImage(art.getImage());
         setPriceField(String.valueOf(art.getPrix()));
-        setStockField(String.valueOf(art.getQuantite()));
+        setStockField(String.valueOf(art.getStock()));
     }
     public void clearEntries() {
         model.setRowCount(0);

@@ -121,7 +121,7 @@ public class VESPAP_BD {
             art.setId(ret.getInt("id"));
             art.setIntitule(ret.getString("intitule"));
             art.setPrix(ret.getFloat("prix"));
-            art.setQuantite(ret.getInt("stock"));
+            art.setStock(ret.getInt("stock"));
             art.setImage(ret.getString("image"));
 
             listeArticles.add(art);
@@ -138,16 +138,16 @@ public class VESPAP_BD {
             throw new RuntimeException(e);
         }
     }
-    public int Change_price(int idArticle, float prixArticle)throws SQLException
+    public int Change_Article(int idArticle, float prixArticle, int quantiteArticle)throws SQLException
     {
         int rep = 0;
-        rep = bdacces.executeUpdate("UPDATE factures SET prix = "+prixArticle+" WHERE id = " +idArticle + ";");
+        rep = bdacces.executeUpdate("UPDATE articles SET prix = "+prixArticle+", stock = "+quantiteArticle+" WHERE id = " +idArticle + ";");
         return rep;
     }
-    public int Change_Qantity(int idArticle, float quantiteArticle)throws SQLException
-    {
-        int rep = 0;
-        rep = bdacces.executeUpdate("UPDATE factures SET prix = "+quantiteArticle+" WHERE id = " +idArticle + ";");
-        return rep;
+    public int getArticlesCount() throws SQLException {
+        ResultSet res = bdacces.executeQuery("select count(*) from articles;");
+        res.next();
+        return res.getInt(1);
     }
+
 }
