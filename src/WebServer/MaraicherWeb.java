@@ -2,10 +2,7 @@ package WebServer;
 
 import BDaccess.BeanAccesBD;
 import BDaccess.VESPAP_BD;
-import WebServer.Handlers.ArticlesHandler;
-import WebServer.Handlers.HandlerCss;
-import WebServer.Handlers.HandlerJs;
-import WebServer.Handlers.rootHandler;
+import WebServer.Handlers.*;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
@@ -28,6 +25,7 @@ public class MaraicherWeb {
         server.createContext("/css", new HandlerCss());
         server.createContext("/api/articles", new ArticlesHandler(bd));
         server.createContext("/js", new HandlerJs());
+        server.createContext("/images", new HandlerImage());
         server.start();
     }
 }

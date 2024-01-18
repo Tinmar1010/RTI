@@ -13,7 +13,6 @@ document.getElementById('update').addEventListener("click", function (e)
         image:image};
 
     var xhr = new XMLHttpRequest();
-    console.log("Gros ZIZI");
 
     xhr.onreadystatechange = function ()
     {
@@ -52,6 +51,7 @@ function miseAJourTable()
             videTable();
             articles.forEach(function (article) {
                 ajouteLigne(article.id, article.intitule, article.prix, article.stock);
+                //displayImage(article.image);
             })
         }
     }
@@ -89,6 +89,27 @@ function ajouteLigne(id, intitule, prix, stock)
         prixUnite.value = this.children[2].innerText;
         var quantite = document.getElementById('quantite');
         quantite.value = this.children[3].innerText;
+
+        clearAllCellColor();
+        displayImage(this.children[1].innerText.replaceAll(' ', ''));
+        this.className = "cell-highlight"
     });
+
     maTable.appendChild(nouvelleLigne);
+}
+function displayImage(image)
+{
+    document.getElementById("image").src=("http://localhost:8080/images/") + ((image) + ".jpg");
+}
+
+function clearAllCellColor()
+{
+
+    var table = document.getElementById('maTable').getElementsByTagName('tr');
+
+    for (var i = 0; i < table.length; i++) {
+
+        table[i].className = "";
+    }
+
 }

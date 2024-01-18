@@ -35,3 +35,11 @@ table td {
 table tr:first-child {
     color: black;
 }
+.cell-highlight {
+    background-color: gold;
+    font-weight: bold;
+}
+.cell-remove{
+    background: lightgreen;
+}
+

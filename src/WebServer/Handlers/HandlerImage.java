@@ -8,35 +8,39 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Files;
 
-public class HandlerCss implements HttpHandler
-{
+public class HandlerImage implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException
     {
-        System.out.println("Nouvelle requete de type CSS");
         String requestPath = exchange.getRequestURI().getPath();
 
-        if (requestPath.endsWith(".css"))
+        System.out.println("Nouvelle requete de type Image");
+        if (requestPath.endsWith(".jpg"))
         {
-            String fichier = "src/WebServer/" + requestPath;
+
+            String fichier = "./" + requestPath;
             File file = new File(fichier);
 
+            System.out.println(file.getAbsolutePath());
             if (file.exists())
             {
                 exchange.sendResponseHeaders(200, file.length());
-                exchange.getResponseHeaders().set("Content-Type", "text/css");
+                exchange.getResponseHeaders().set("Content-Type","image/jpeg");
+
                 OutputStream os = exchange.getResponseBody();
                 Files.copy(file.toPath(), os);
                 os.close();
-                System.out.println("OK");
             }
-            else Erreur404(exchange);
+            else
+                Erreur404(exchange);
         }
-        else Erreur404(exchange);
+        else
+            Erreur404(exchange);
     }
+
     private void Erreur404(HttpExchange exchange) throws IOException
     {
-        String reponse = "Could not find the targeted CSS file";
+        String reponse = "Could not find the targeted image...";
         exchange.sendResponseHeaders(404, reponse.length());
         exchange.getResponseHeaders().set("Content-Type", "text/plain");
         OutputStream os = exchange.getResponseBody();
@@ -45,3 +49,4 @@ public class HandlerCss implements HttpHandler
         System.out.println("KO");
     }
 }
+
